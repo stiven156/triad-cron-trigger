@@ -1,0 +1,14 @@
+name: Disparar tarea diaria de TRIAD
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+jobs:
+  llamar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Llamar al endpoint de cron de TRIAD
+        run: |
+          curl -sf "https://triadcol.com/api/cron/gestion" \
+            -H "Authorization: Bearer ${{ secrets.TRIAD_CRON_SECRET }}" \
+            -o /dev/null -w "HTTP %{http_code}\n"
